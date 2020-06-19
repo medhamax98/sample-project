@@ -41,6 +41,7 @@
                 @endforeach
 
                 <button class="btn btn-dark" type="submit">Complete Survey</button>
+                <button class="btn btn-dark" type="submit">Show Survey</button>
             </form>
             <!--div class="card">
                 <div class="card-header">Create New Questionnaire</div>
