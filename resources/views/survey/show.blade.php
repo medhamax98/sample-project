@@ -16,18 +16,20 @@
                         <div class="card-header"><strong>{{ $key + 1 }}</strong>{{ $question->question }}</div>
 
                         <div class="card-body">
-                            @error('responses'. $key . '.answer_id')
-                                <small class="danger">{{ $message }}</small>
+                            @error('responses.' . $key . '.answer_id')
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                             <ul class="list-group">
                                 @foreach($question->answers as $answer)
                                     <label for="answer{{ $answer->id }}">
                                     <li class="list-group-item">
                                         <input type="radio" name="responses[{{ $key }}][answer_id]" id ="answer{{ $answer->id }}"
-                                            class="mr-2" value="{{ $answer->id }}">
+                                        {{ (old('responses.' . $key . '.answer_id') == $answer->id) ? 'Checked' : '' }}
+                                        class="mr-2" value="{{ $answer->id }}">
                                         {{ $answer->answer }}
 
-                                        <input type="hidden" name="responses[{{ $key }}][question_id]" value="{{ $question->id }}">
+                                        <input type="hidden" name="responses[{{ $key }}][question_id]" 
+                                        value="{{ $question->id }}">
                                         
                                     </li>
                                     </label>
@@ -40,44 +42,40 @@
 
                 @endforeach
 
-                <button class="btn btn-dark" type="submit">Complete Survey</button>
-                <button class="btn btn-dark" type="submit">Show Survey</button>
-            </form>
-            <!--div class="card">
-                <div class="card-header">Create New Questionnaire</div>
+            <div class="card mt-4 ">
+                <div class="card-header">Your Information</div>
 
                 <div class="card-body">
-                    <form action ="#" method="post">
+                    @csrf 
+
+                    <div class="form-group">
+                        <label for="name">Your name</label>
+                        <input name="survey[name]" type="text" class="form-control" id="name" 
+                        aria-describedby="nameHelp" placeholder="Enter your name">
+                        <small id="nameHelp" class="form-text text-muted">Hello, What's your name?</small>
+
+                        @error('name')
                         
-                        @csrf 
+                        <small class="text-danger">{{ $message }}</small>
+                        @enderror
 
-                        <div class="form-group">
-                            <label for="title">Title</label>
-                            <input name="title" type="text" class="form-control" id="title" aria-describedby="titleHelp" placeholder="Enter Title">
-                            <small id="titleHelp" class="form-text text-muted">Give your questionnaire a title that attracts attention</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your email</label>
+                        <input name="survey[email]" type="email" class="form-control" id="email" 
+                        aria-describedby="emailHelp" placeholder="Enter Email">
+                        <small id="emailHelp" class="form-text text-muted">Your email please</small>
 
-                            @error('title')
-                            
+                        @error('email')
                             <small class="text-danger">{{ $message }}</small>
-                            @enderror
-
-                        </div>
-                        <div class="form-group">
-                            <label for="purpose">Purpose</label>
-                            <input name="purpose" type="text" class="form-control" id="purpose" aria-describedby="purposeHelp" placeholder="Enter Purpose">
-                            <small id="purposeHelp" class="form-text text-muted">Giving a purpose will increase responses.</small>
-
-                            @error('purpose')
-                            
-                            <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Create Questionnaire</button>
-
-                    </form>
+                        @enderror
+                    </div>
+                    <div>
+                        <button class="btn btn-dark" type="submit">Complete Survey</button>
+                    </div>
                 </div>
-            </div-->
+            </div>
+            </form>
         </div>
     </div>
 </div>
